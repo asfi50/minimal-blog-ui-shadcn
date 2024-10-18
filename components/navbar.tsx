@@ -13,6 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import MobileMenu from "@/components/mobile-menu";
+import NotificationBar from "@/components/notification-bar";
 import { useState } from "react";
 
 const pacifico = Pacifico({
@@ -21,8 +23,8 @@ const pacifico = Pacifico({
 });
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true);
+  const [notificationOpen, setNotificationOpen] = useState(false);
 
   return (
     <nav className="bg-background border-b">
@@ -58,15 +60,27 @@ const Navbar = () => {
                   type="text"
                   placeholder="Search..."
                   className="w-64 pl-10"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      window.location.href =
+                        "/search?q=" + e.currentTarget.value;
+                    }
+                  }}
                 />
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              <Button variant="ghost" size="icon" className="ml-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ml-2"
+                onClick={() => setNotificationOpen(!notificationOpen)}
+              >
                 <Bell className="h-5 w-5" />
               </Button>
               <ModeToggle />
+              <NotificationBar open={notificationOpen} onOpenChange={setNotificationOpen} />
               {loggedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -113,69 +127,9 @@ const Navbar = () => {
               )}
             </div>
           </div>
-          <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setOpen(!open)}>
-              <Menu className="h-6 w-6" />
-            </Button>
-          </div>
+          <MobileMenu loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
         </div>
       </div>
-      {open && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link
-              href="/about"
-              className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-            >
-              About
-            </Link>
-            <Link
-              href="/pricing"
-              className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Pricing
-            </Link>
-            {loggedIn ? (
-              <>
-                <Link
-                  href="/profile"
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Profile
-                </Link>
-                <Link
-                  href="/settings"
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Settings
-                </Link>
-                <Button
-                  variant="ghost"
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-                  onClick={() => setLoggedIn(false)}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/register"
-                  className="text-foreground hover:bg-accent hover:text-accent-foreground block px-3 py-2 rounded-md text-base font-medium"
-                >
-                  Sign up
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };
