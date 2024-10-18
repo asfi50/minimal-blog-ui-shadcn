@@ -1,4 +1,5 @@
-# Minimal UI Blog
+# Minimal Blog UI Shadcn
+![homepage](https://github.com/user-attachments/assets/0e65ec13-1958-45e1-a1ee-00f74ed4226e)
 
 A modern, minimal blog platform built with Next.js, featuring a clean UI using shadcn/ui components, Tailwind CSS, and Lucide icons.
 
