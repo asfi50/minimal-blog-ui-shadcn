@@ -139,7 +139,7 @@ const SearchPage = () => {
               <PostFeed/>
             ) : queryParam ? (
               <div className="text-center py-8 text-muted-foreground">
-                No results found for "{queryParam}"
+                No results found for &quot;{queryParam}&quot;
               </div>
             ) : (
               <div className="text-center py-8 text-muted-foreground">
